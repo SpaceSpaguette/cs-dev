@@ -3,6 +3,7 @@ namespace sc_dev
 {
     class Graphs
     {
+        // Shared variables which the classes can manipulate
         int nodeCount = 0;
         int[,] Matrix;
         string[] nodeNames;
@@ -33,9 +34,9 @@ namespace sc_dev
 
 
 
-        } // Constructor for parent
+        } // Constructor for parent. This declares the subclasses
 
-        public class Nodes
+        public class Nodes      
         {
             private Graphs parent;
             public Nodes(Graphs _parent)
@@ -68,38 +69,53 @@ namespace sc_dev
                 parent.Matrix = newMatrix;
                 parent.nodeNames = newNodeNames;
             } // Copy the old matrix and make a new one with the new size
-        }
-        public class Paths
+        } // This is a manipulator for the NODES and FIELD as a whole. has functions [RESET,RESIZE,RENAME]
+        public class Paths      
         {
             private Graphs parent;
             public Paths(Graphs _parent)
             {
                 parent = _parent;
             }
-        }
-        public class Edges
+        } // TODO: Add the pathfinding functions
+        public class Edges      
         {
             private Graphs parent;
             public Edges(Graphs _parent)
             {
                 parent = _parent;
             }
-        }
-        public class Analyzer
+
+            public void Create(int from, int to, int cost = 1)
+            {
+                if (from < 0) {from = from * -1;}
+                if (to < 0) {to = to * -1;}
+                parent.Matrix[from, to] = cost;
+            } 
+            public void Remove(int from, int to)
+            {
+                if (from < 0) {from = from * -1;}
+                if (to < 0) {to = to * -1;}
+                parent.Matrix[from, to] = 0;
+            }
+            
+            
+        } // this class serves as the manipulator for edges between nodes. [CREATE,DELETE]
+        public class Analyzer   
         {
             private Graphs parent;
             public Analyzer(Graphs _parent)
             {
                 parent = _parent;
             }
-        }
+        } // The analyzer that the Teach requested. This will be made as the last thing ever
         public class Printer
         {
-            private Graphs parent;
+            private Graphs parent; //Acts as a link between memory of the parent Graphs and the Print
             public Printer(Graphs _parent)
             {
                 parent = _parent;
-            }
+            } // constructor
             public void Matrix()
             {
                 int rows = parent.Matrix.GetLength(0);
@@ -112,8 +128,8 @@ namespace sc_dev
                     }
                     Console.WriteLine();
                 }
-            }
-        }
+            } // Prints the relational matrix
+        } // this makes the .Print.Matrix() work as it looks amazing
 
 
     }
